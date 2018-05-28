@@ -1,22 +1,39 @@
-let inc = 0.01
+let inc = 0.1
+let scl = 10
+let cols, rows
+
+let zoff = 0
+
+let fr
 
 function setup() {
 	createCanvas(200, 200)
-	pixelDensity(1)
+	cols = floor(width / scl)
+	rows = floor(height / scl)
+	fr = createP('')
 }
 
 function draw() {
-	loadPixels()
-	for (let x = 0; x < width; x++) {
-		for (let y = 0; y < height; y++) {
+	background(255)
+	let yoff = 0
+	for (let y = 0; y < rows; y++) {
+		let xoff = 0
+		for (let x = 0; x < cols; x++) {
 			let index = (x + y * width) * 4
-			let r = random(255)
-			pixels[index + 0] = r
-			pixels[index + 1] = r
-			pixels[index + 2] = r
-			pixels[index + 3] = 255
+			let angle = noise(xoff, yoff, zoff) * TWO_PI
+			let v = p5.Vector.fromAngle(angle)
+			xoff += inc
+			stroke(0)
+			push()
+			translate(x * scl, y * scl)
+			rotate(v.heading())
+			line(0, 0, scl, 0)
+
+			pop()
 		}
+		yoff += inc
+		zoff += 0.001
 	}
-	updatePixels()
-	noLoop()
+
+	fr.html(floor(frameRate()))
 }
