@@ -1,32 +1,22 @@
-// let xoff1 = 0;
-// let xoff2 = 10000;
 let inc = 0.01
-let start = 0
 
 function setup() {
-	createCanvas(400, 400);
+	createCanvas(200, 200)
+	pixelDensity(1)
 }
 
 function draw() {
-	background(51);
-
-	// var x = map(noise(xoff1), 0, 1, 0, width);	
-	// var y = map(noise(xoff2), 0, 1, 0, height);
-	// xoff1 += 0.01;
-	// xoff2 += 0.01;
-
-	// ellipse(x, y, 24, 24);
-	stroke(255)
-	noFill()
-	beginShape()
-	let xoff = start
+	loadPixels()
 	for (let x = 0; x < width; x++) {
-		stroke(255)
-		let y = noise(xoff) * height
-		vertex(x, y)
-		xoff += 0.01
+		for (let y = 0; y < height; y++) {
+			let index = (x + y * width) * 4
+			let r = random(255)
+			pixels[index + 0] = r
+			pixels[index + 1] = r
+			pixels[index + 2] = r
+			pixels[index + 3] = 255
+		}
 	}
-	endShape();
-	start += inc
-
+	updatePixels()
+	noLoop()
 }
